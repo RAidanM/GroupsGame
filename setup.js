@@ -1,16 +1,21 @@
+
 //json setup
+let group_data;
+const itemsLeft = [];
 let json_data = fetch('groups.json').then(
     response => {
         return response.json(); //this is return a promise to parse JSON
     }
 ).then(
     data => {
+        group_data = data;
         //reading the actual data inside the json file
         let grid = document.getElementById(16);
 
         for (let i = 0; i < 16; i++) {
             let button = document.createElement("button");
             button.id = i;
+            itemsLeft.push(i+'');
             button.classList = "grid-item";
             button.style.order = Math.floor(Math.random() * 100 +1);
             let group = i / 4 >>> 0;
@@ -53,13 +58,11 @@ function pushButton(element){
 //attempts
 function loseLife(){
     let attempts = document.getElementById(20);
-    console.log(attempts.innerHTML);
-    console.log(attempts.innerHTML.slice(0,-1));
     attempts.innerHTML = attempts.innerHTML.slice(0,-1);
     if(attempts.innerHTML==""){
         attempts.innerHTML = "YOU LOST";
         attempts.style.color = "white";
-        attempts.style.background = "red";
+        attempts.style.background = "rgb(250, 42, 85)";
     }
 }
 
@@ -75,13 +78,14 @@ function deselect(){
 
 //shuffle
 function shuffle(){
-    for (let i = 0; i < 16; i++) {
-        let element = document.getElementById(i);
+    itemsLeft.forEach( id =>{
+        let element = document.getElementById(id);
         if(element.style.order>0){
             element.style.order = Math.floor(Math.random() * 100 +1);    
         }
-    }
+    });
 }
+
 
 //submit
 function submit(){
@@ -98,6 +102,7 @@ function submit(){
             deselect();
         }
     });
+    //correct group
     if (check){
         selectedItems.forEach( id => {
             let element = document.getElementById(id);
@@ -110,6 +115,28 @@ function submit(){
             element.style.color = "buttontext";
             element.style.order = order++;
             element.removeEventListener("mousedown", handleButtonPress);
+
+            
+            
+            let idLocation = itemsLeft.indexOf(id);
+            itemsLeft.splice(idLocation,1);
+            
+        });
+
+        let titleId = selectedItems.shift();
+        let title = document.getElementById(titleId);
+        title.style.flex = "100%";
+
+        let words = group_data.groups[group].words[0];
+        for (let i = 1; i < 4; i++) {
+            words += ", "+group_data.groups[group].words[i];
+        }
+
+        title.innerHTML = group_data.groups[group].title + "\n("+words+")";
+
+
+        selectedItems.forEach( element => {
+            document.getElementById(element).remove();
         });
         selectedItems.splice(0,4);
     }
