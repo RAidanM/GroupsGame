@@ -50,6 +50,19 @@ function pushButton(element){
     }
 }
 
+//attempts
+function loseLife(){
+    let attempts = document.getElementById(20);
+    console.log(attempts.innerHTML);
+    console.log(attempts.innerHTML.slice(0,-1));
+    attempts.innerHTML = attempts.innerHTML.slice(0,-1);
+    if(attempts.innerHTML==""){
+        attempts.innerHTML = "YOU LOST";
+        attempts.style.color = "white";
+        attempts.style.background = "red";
+    }
+}
+
 //deselect button
 function deselect(){
     selectedItems.forEach( id => {
@@ -81,6 +94,7 @@ function submit(){
         }
         else if (group != (id / 4 >>> 0)) {
             check = false;
+            loseLife();
             deselect();
         }
     });
