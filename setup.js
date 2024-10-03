@@ -126,7 +126,7 @@ function submit(){
             words += ", "+group_data.groups[group].words[i];
         }
 
-        title.innerHTML = group_data.groups[group].title + "\n("+words+")";
+        title.innerHTML = group_data.groups[group].title.toUpperCase() + "\n("+words+")";
 
 
         selectedItems.forEach( element => {
@@ -146,24 +146,17 @@ function submit(){
             check[i] = selectedItems[i];
         }
 
-        console.log(guesses);
-
         if(guesses.length>0){
-            console.log("Lets check: "+check);
             guesses.forEach( ar => {
                 if (!alreadyGuessed){
                     alreadyGuessed = compare(ar, check);
-                    console.log(alreadyGuessed);
                 }
             });
         }
         
         guesses[guesses.length] = guess;
 
-        
-        
         if(alreadyGuessed){
-            console.log("here");
             notification("Already Guessed!");
         }
         else {
@@ -171,7 +164,6 @@ function submit(){
             if (guessGroup.includes(3)){
                 notification("One away...");
             }
-            
             loseLife();
         }
     }
