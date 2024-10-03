@@ -1,18 +1,18 @@
 {"groups":[
     {
-        "title":"easy group explanation",
-        "words":["one","two","three","four"]
+        "title":"comfy shoes",
+        "words":["croc","loafer","moccasin","slipper"]
     },
     {
-        "title":"medium group explanation",
-        "words":["five","six","seven","eight"]
+        "title":"things made with feathers",
+        "words":["boa","headdress","pillow","shuttlecock"]
     },
     {
-        "title":"hard group explanation",
-        "words":["nine","ten","eleven","twelve"]
+        "title":"programming languages",
+        "words":["basic","java","python","ruby"]
     },
     {
-        "title":"brutal group explanation",
-        "words":["thirteen","fourteen","fifteen","sixteen"]
+        "title":"things that can strike",
+        "words":["cobra","inspiration","lighting","union"]
     }
 ]}
