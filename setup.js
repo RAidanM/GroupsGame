@@ -34,6 +34,7 @@ let json_data = fetch('groups.json').then(
 });
 
 const selectedItems = [];
+const guesses = [];
 let order = -16;
 
 //grid-items
@@ -59,7 +60,7 @@ function pushButton(element){
 function loseLife(){
     let attempts = document.getElementById(20);
     attempts.innerHTML = attempts.innerHTML.slice(0,-1);
-    if(attempts.innerHTML==""){
+    if(attempts.innerHTML=="" || attempts.innerHTML.length>4){
         attempts.innerHTML = "YOU LOST";
         attempts.style.color = "white";
         attempts.style.background = "rgb(250, 42, 85)";
@@ -86,24 +87,18 @@ function shuffle(){
     });
 }
 
-
 //submit
 function submit(){
-    if (selectedItems.length != 4) { return deselect();}
-    let group;
-    let check = true;
+    if (selectedItems.length != 4) { return;}
+    const guessGroup = [0,0,0,0];
+
     selectedItems.forEach( id => {
-        if (typeof group == 'undefined'){
-            group = id / 4 >>> 0;
-        }
-        else if (group != (id / 4 >>> 0)) {
-            check = false;
-            loseLife();
-            deselect();
-        }
+        guessGroup[(id / 4 >>> 0)]++;
     });
-    //correct group
-    if (check){
+
+    //4 correct
+    if (guessGroup.includes(4)){
+        let group = selectedItems[0] / 4 >>> 0;
         selectedItems.forEach( id => {
             let element = document.getElementById(id);
             let color;
@@ -120,7 +115,6 @@ function submit(){
             
             let idLocation = itemsLeft.indexOf(id);
             itemsLeft.splice(idLocation,1);
-            
         });
 
         let titleId = selectedItems.shift();
@@ -140,4 +134,79 @@ function submit(){
         });
         selectedItems.splice(0,4);
     }
+    //incorrect
+    else {
+        let alreadyGuessed = false;
+        
+        const guess = [0,0,0,0];
+        const check = [0,0,0,0];
+
+        for(let i = 0; i < guess.length; i++){
+            guess[i] = selectedItems[i];
+            check[i] = selectedItems[i];
+        }
+
+        console.log(guesses);
+
+        if(guesses.length>0){
+            console.log("Lets check: "+check);
+            guesses.forEach( ar => {
+                if (!alreadyGuessed){
+                    alreadyGuessed = compare(ar, check);
+                    console.log(alreadyGuessed);
+                }
+            });
+        }
+        
+        guesses[guesses.length] = guess;
+
+        
+        
+        if(alreadyGuessed){
+            console.log("here");
+            notification("Already Guessed!");
+        }
+        else {
+            //3 correct
+            if (guessGroup.includes(3)){
+                notification("One away...");
+            }
+            
+            loseLife();
+        }
+    }
+}
+
+//notification
+function notification(text){
+    let notif = document.getElementById(19);
+    notif.classList.add("visible");
+    notif.style.zIndex = 1;
+
+    notif.innerHTML = text;
+
+    setTimeout(() => {
+        notif.classList.remove("visible");
+    }, 2000);
+    setTimeout(() => {
+        notif.style.zIndex = -1;
+    }, 2500);
+}
+
+//compare arrays
+function compare(array1, array2){
+    if(array1.length != array2.length) {return false;}
+
+    let temp1 = [];
+    let temp2 = [];
+    for(let i = 0; i < array1.length ; i++){
+        temp1[i] = array1[i];
+        temp2[i] = array2[i];
+    }
+    for(let i = 0; i < array1.length ; i++){
+        if(temp2.indexOf(temp1[i]) == -1) {
+            return false;
+        }
+    }
+    return true;
 }
