@@ -16,12 +16,12 @@
 
     border-style: none;
     border-radius: 2vh;
-    margin: 1vw;
+    margin: 0.5vmin;
 
     height: 15vh;
 
     font-family:Arial;
-    font-size: 3.5vmin;
+    font-size: 3vmin;
     font-weight: bold;
 
     background-color: rgb(239, 239, 230);
