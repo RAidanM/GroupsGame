@@ -17,6 +17,7 @@ let json_data = fetch('groups.json').then(
             button.id = i;
             itemsLeft.push(i+'');
             button.classList = "grid-item";
+            button.style.color = "buttontext";
             button.style.order = Math.floor(Math.random() * 100 +1);
             let group = i / 4 >>> 0;
             let word = i % 4;
