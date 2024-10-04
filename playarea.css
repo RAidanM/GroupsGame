@@ -4,8 +4,8 @@
     flex-wrap: wrap;
 
     position: absolute;
-    width: 100vw;
-    left: 0vw;
+    width: 94vw;
+    left: 3dvh;
 }
 
 .grid-item{
