@@ -122,9 +122,9 @@ function submit(){
         let title = document.getElementById(titleId);
         title.style.flex = "100%";
 
-        let words = group_data.groups[group].words[0];
+        let words = group_data.groups[group].words[0].toUpperCase();
         for (let i = 1; i < 4; i++) {
-            words += ", "+group_data.groups[group].words[i];
+            words += ", "+group_data.groups[group].words[i].toUpperCase();
         }
 
         title.innerHTML = group_data.groups[group].title.toUpperCase() + "\n("+words+")";
